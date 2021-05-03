@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: "DaemonSet"
+metadata:
+  name: {{ include "egagent.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app }}
+    {{- include "egagent.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.app }}
+      {{- include "egagent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ .Values.app }}
+        {{- include "egagent.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+      - name: var-run
+        hostPath:
+          path: /var/run
+      - name: process
+        hostPath:
+          path: /proc
+      - name: host-root
+        hostPath:
+          path: /
+      - name: btmmount
+        hostPath: 
+          path: /opt/egbtm
+          type: DirectoryOrCreate
+      containers:
+      - name: {{ .Values.name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: {{ .Values.securityContext.previleged }}
+        env:
+        - name: EG_MANAGER
+          value: "{{ .Values.env.EG_MANAGER }}"
+        - name: EG_MANAGER_PORT
+          value: "{{ .Values.env.EG_MANAGER_PORT}}"
+        - name: EG_MANAGER_SSL
+          value: "{{ .Values.env.EG_MANAGER_SSL }}"
+        - name: JVM_MEMORY
+          value: "{{ .Values.env.JVM_MEMORY }}"
+        - name: EG_AGENT_IDENTIFIER_ID
+          value: "{{ .Values.env.EG_AGENT_IDENTIFIER_ID }}"
+        - name: EG_CONTAINERZ_PORT_DISCOVERY
+          value: "{{ .Values.env.EG_CONTAINERZ_PORT_DISCOVERY }}"
+        - name: DEBUG
+          value: "{{ .Values.env.DEBUG }}"
+        - name: EG_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: {{ .Values.env.EG_HOST_IP }}
+        volumeMounts:
+        - name: var-run
+          mountPath: /var/run
+        - name: process
+          mountPath: /media/proc
+        - name: host-root
+          mountPath: /mnt
+        - name: btmmount
+          mountPath: /opt/egbtm
+      hostIPC: {{ .Values.hostIPC }}
+      hostNetwork: {{ .Values.hostNetwork }}
+      hostPID: {{ .Values.hostPID }}
+      serviceAccountName: {{ .Values.serviceAccountName }}

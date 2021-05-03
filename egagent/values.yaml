@@ -1,0 +1,80 @@
+# Default values for egagent.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+name: "egagent"
+namespace: "egagent"
+image:
+  repository: eginnovations/agent 
+  pullPolicy: Always
+  tag: "718"
+app: "egagent"
+securityContext:
+  previleged: true
+
+env:
+  EG_MANAGER: "apm.eginnovations.com"
+  EG_MANAGER_PORT: "443"
+  EG_MANAGER_SSL: "true"
+  JVM_MEMORY: "512"
+  EG_AGENT_IDENTIFIER_ID: "ecozxmw5q4yh5typqkioh3ww6pafrf62"
+  EG_CONTAINERZ_PORT_DISCOVERY: "false"        
+  DEBUG: "true"
+  EG_HOST_IP: "status.hostIP"
+
+hostIPC: true
+hostNetwork: true
+hostPID: true
+serviceAccountName: "egagent"
+
+imagePullSecrets: []
+nameOverride: "egagent"
+fullnameOverride: "egagent"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  name: egagent
+  namespace: egagent
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+
+clusterRole:
+  create: true
+  annotations: {}
+  name: "egagent-role"
+  namespace: "egagent"
+
+clusterRoleBinding:
+  create: true
+  annotations: {}
+  name: "egagent-role-binding"
+  namespace: "egagent"
+
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 60
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
