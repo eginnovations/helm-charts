@@ -1,6 +1,29 @@
 apiVersion: v2
+
 name: egagent
-description: A Helm chart for Kubernetes
+description: The eGinnovations Helm Chart for Kubernetes and OpenShift monitoring
+
+home: https://www.eginnovations.com/
+icon: https://s.gravatar.com/avatar/9a5699e3ad66f788e8f29d32e0066e60?s=80
+
+keywords:
+    - eginnovations
+    - egagent
+    - cluster
+    - kubernetes
+    - openshift
+    - monitoring
+    - pod
+    - deployment
+    - apm
+    - k8s
+    - ocp
+    
+sources:
+    - https://eginnovations.github.io/helm-charts
+maintainers:
+    - name: Venkatesan.VC
+      email: info@eginnovations.com
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -12,7 +12,7 @@ securityContext:
   previleged: true
 
 env:
-  EG_MANAGER: "xyz.eghost.com"
+  EG_MANAGER: "xyz.egmonitoringhost.com"
   EG_MANAGER_PORT: "443"
   EG_MANAGER_SSL: "true"
   JVM_MEMORY: "512"
