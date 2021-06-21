@@ -6,19 +6,19 @@ namespace: "egagent"
 image:
   repository: eginnovations/agent 
   pullPolicy: Always
-  tag: "718"
+  tag: "7.2.0"
 app: "egagent"
 securityContext:
   previleged: true
 
 env:
-  EG_MANAGER: "apm.eginnovations.com"
+  EG_MANAGER: "xyz.eghost.com"
   EG_MANAGER_PORT: "443"
   EG_MANAGER_SSL: "true"
   JVM_MEMORY: "512"
-  EG_AGENT_IDENTIFIER_ID: "ecozxmw5q4yh5typqkioh3ww6pafrf62"
+  EG_AGENT_IDENTIFIER_ID: ""
   EG_CONTAINERZ_PORT_DISCOVERY: "false"        
-  DEBUG: "true"
+  DEBUG: "false"
   EG_HOST_IP: "status.hostIP"
 
 hostIPC: true

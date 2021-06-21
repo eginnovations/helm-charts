@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   egagent:
   - apiVersion: v2
-    appVersion: 1.16.0
+    appVersion: 7.2.0
     created: "2021-05-03T16:36:35.652434603+05:30"
     description: A Helm chart for Kubernetes
     digest: 3c4d84373df9d2d601c26dd4ea30d9204789f4ab754840f6d1d6682a86ee2fa4
@@ -10,5 +10,5 @@ entries:
     type: application
     urls:
     - https://eginnovations.github.io/helm-charts/egagent-0.1.0.tgz
-    version: 0.1.0
+    version: 0.2.0
 generated: "2021-05-03T16:36:35.651635881+05:30"
