@@ -7,11 +7,11 @@
 
 The Helm chart for eG-Agent can be found in Artifact Hub under below URL<br>
 https://artifacthub.io/packages/helm/eginnovations/egagent
-<br>
-Step 1 - Adding the Repository. Run command<br>
+<br><br>
+<b>Step 1 - </b>Adding the Repository. Run command<br>
 helm repo add eginnovations https://eginnovations.github.io/helm-charts
 <br>
-Step 2 - Installing the chart. Run command<br>
+<b>Step 2 - </b>Installing the chart. Run command<br>
 helm install my-egagent eginnovations/egagent --version 0.2.0<br>
 
 <h2> Installing eG-Agent Helm Chart</h2>
