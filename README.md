@@ -14,5 +14,5 @@ helm install <chart-name> ./egagent<br><br>
 helm install egagent-chart ./egagent<br><br>
   To view the <b>list of running chart</b> run command<br>
 helm ls<br><br>
-  <p>To <b>Uninstall</b> a running chart run command</p><br>
-helm uninstall <chart-name>
+  <p>To <b>Uninstall</b> a running chart run command</p>
+helm uninstall chart-name
