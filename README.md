@@ -17,8 +17,7 @@ helm install my-egagent eginnovations/egagent --version 0.2.0<br>
 <h2> Installing eG-Agent Helm Chart locally</h2>
 
 Clone the repository and navigate the <b>helm-charts</b> directory
-<h4> Helm Chart Installation</h4>
-<b>Installing eGAgent-helm-chart </b>is a one-command process using the following helm install command<br>
+<b>Installing eGAgent-helm-chart </b>from local repository is a one-command process using the following helm install command<br>
 helm install chart-name ./egagent<br>
 <b>For example </b><br>
 helm install egagent-chart ./egagent<br><br>
