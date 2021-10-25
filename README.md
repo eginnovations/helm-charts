@@ -20,7 +20,7 @@ Clone the repository and navigate the <b>helm-charts</b> directory
 <b>Installing eGAgent-helm-chart </b>from local repository is a one-command process using the following helm install command<br>
 helm install chart-name ./egagent<br>
 <b>For example </b><br>
-helm install egagent-chart ./egagent<br><br>
+helm install egagent-chart ./egagent<br>
 <h4> View Installed Charts</h4>
 To view the <b>list of running chart</b> run command<br>
 helm ls<br>
