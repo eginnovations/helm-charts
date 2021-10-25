@@ -8,12 +8,11 @@
 
 Clone the repository and navigate the <b>helm-charts</b> directory
 <h4> Helm Chart Installation</h4>
-<p><b>Installing eGAgent-helm-chart <b>is a one-command process using the following helm install command</p>
-
-<p>helm install <chart-name> ./egagent</p><br>
-<p><b>For example </b></p>
-<p>  helm install egagent-chart ./egagent</p><br>
-  <p>To view the <b>list of running chart</b> run command</p>
-<p>  helm ls</p><br>
+<b>Installing eGAgent-helm-chart </b>is a one-command process using the following helm install command
+helm install <chart-name> ./egagent<br>
+<b>For example </b>
+helm install egagent-chart ./egagent<br>
+  To view the <b>list of running chart</b> run command
+helm ls<br>
   <p>To <b>Uninstall</b> a running chart run command</p>
 <p>  helm uninstall <chart-name></p>
