@@ -25,7 +25,7 @@ entries:
       name: Venkatesan.VC
     name: egagent
     sources:
-    - https://eginnovations.github.io/helm-charts
+    - https://eginnovations.github.io/helm-charts/stable
     type: application
     urls:
     - https://eginnovations.github.io/helm-charts/repos/stable/egagent-0.2.0.tgz
