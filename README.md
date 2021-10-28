@@ -27,3 +27,12 @@ Clone the repository and navigate the <b>helm-charts</b> directory
 helm install chart-name ./egagent<br>
 <b>For example </b><br>
 helm install egagent-chart ./egagent<br>
+
+<h2>List currently running charts in the cluster</h2>
+The list of running charts can be obtained by running the follow command<br>
+<i>helm ls</i><br>
+
+<h2>Delete Running Chart</h3>
+To Uninstall a running Chart, Run command<br>
+<i>helm uninstall chart-name</i></br>
+
