@@ -1,5 +1,7 @@
 <h1> eG Innovations </h1>
-<p><big><b>eG - APM</b></big> is an Application Performance Monitoring solution which offers granular visibility over applications deployed in various application servers like Tomcat, Jetty, Websphere, etc., providing end to end monitoring of the application. This helm chart is optimised to run in kubernetes cluster.</p>
+<big><b>eG - APM</b></big> is an Application Performance Monitoring solution which offers granular visibility over applications deployed in various application servers like Tomcat, Jboss, Jetty, Websphere, etc., providing end to end monitoring of the application.<br>
+  
+This helm chart is optimised to run in kubernetes cluster.
 
 <p>The egagent helm chart adds eG Container Agent to every node in the cluster with the help of DaemonSet. The egagent chart enables monitoring, tracing, and provides root-cause analysis on the applications that are deployed in the cluster</p>
 ### Steps To Deploy eG Container Agent Using Helm For Kubernetes/OpenShift
