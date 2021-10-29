@@ -8,7 +8,13 @@ This helm chart is optimised to run in kubernetes cluster.
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/eginnovations)](https://artifacthub.io/packages/search?repo=eginnovations)<br>
 
--Here you will find helm charts for installing eG monitoring components on Kubernetes/OpenShift.
+-Here you will find helm charts for installing eG monitoring components on Kubernetes/OpenShift.<br>
+
+<h2> Prerequisites</h2>
+<ul>
+<li> Helm3</li>
+<li> Kubernetes 1.18 Or Higher</li>
+</ul>
 <h2>Installing from Artifact Hub</h2>
 
 The Helm chart for eG-Agent can be found in Artifact Hub under below URL<br>
