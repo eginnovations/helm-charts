@@ -52,4 +52,5 @@ The list of running charts can be obtained by running the follow command
     helm ls
 
 ## Delete Running Chart To Uninstall a running Chart, Run command  
+	
 	helm uninstall chart-name
