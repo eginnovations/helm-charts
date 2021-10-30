@@ -18,8 +18,6 @@
 
 # Create commit on repo
 
-    pushd .
     git add -A
     git commit -m "updated charts"
     git push
-    popd
