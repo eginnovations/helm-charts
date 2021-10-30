@@ -1,4 +1,5 @@
 
+
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/eginnovations)](https://artifacthub.io/packages/search?repo=eginnovations)  
 # eG Innovations
 
@@ -21,14 +22,23 @@ The egagent helm chart adds eG Container Agent to every node in the cluster with
 The Helm chart for eG-Agent can be found in Artifact Hub under below URL.
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/eginnovations)](https://artifacthub.io/packages/search?repo=eginnovations)  
   
-**Step 1 -** Adding the Repository. Run command  
+**Step 1 -** Adding the Repository. Run command.  
 
     helm repo add eginnovations https://eginnovations.github.io/helm-charts  
 
   
-**Step 2 -** Installing the chart. Run command  
+**Step 2 -** Installing the chart. Update required fields in values.yaml or use **--set** command.  
+    Using values.xml:
+ 
+    helm install chart-name eginnovations/egagent 
 
-    helm install chart-name eginnovations/egagent --version 0.2.0  
+   Using set command:
+	   
+
+        helm install chart-name --set EG_MANAGER=<MANAGER_IP> \
+		--set EG_MANAGER_PORT=<MANAGER_PORT> \
+		--set EG_MANAGER_SSL=<true/false> \
+		eginnovations/egagent
 
 The **chart-name** could be any desired name that the instance of egagent to be called by.
 
@@ -52,4 +62,5 @@ The list of running charts can be obtained by running the follow command
     helm ls
 
 ## Delete Running Chart To Uninstall a running Chart, Run command  
+	
 	helm uninstall chart-name
