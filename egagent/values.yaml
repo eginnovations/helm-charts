@@ -15,10 +15,12 @@ env:
   EG_MANAGER: "xyz.egmonitoringhost.com"
   EG_MANAGER_PORT: "443"
   EG_MANAGER_SSL: "true"
-  JVM_MEMORY: "512"
+  JVM_MEMORY: "1024"
   EG_AGENT_IDENTIFIER_ID: ""
   EG_CONTAINERZ_PORT_DISCOVERY: "false"        
   DEBUG: "false"
+  NAMESPACES_TO_INCLUDE: "*"
+  NAMESPACES_TO_EXCLUDE: "none"
   EG_HOST_IP: "status.hostIP"
 
 hostIPC: true

@@ -56,6 +56,10 @@ spec:
           value: "{{ .Values.env.EG_CONTAINERZ_PORT_DISCOVERY }}"
         - name: DEBUG
           value: "{{ .Values.env.DEBUG }}"
+        - name: NAMESPACES_TO_INCLUDE
+          value: "{{ .Values.env.NAMESPACES_TO_INCLUDE }}"          
+        - name: NAMESPACES_TO_EXCLUDE
+          value: "{{ .Values.env.NAMESPACES_TO_EXCLUDE }}"              
         - name: EG_HOST_IP
           valueFrom:
             fieldRef:
