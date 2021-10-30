@@ -3,9 +3,9 @@ entries:
   egagent:
   - apiVersion: v2
     appVersion: 7.2.0
-    created: "2021-10-30T21:04:30.8406146+05:30"
+    created: "2021-10-30T21:54:12.397547+05:30"
     description: The eGinnovations Helm Chart for Kubernetes and OpenShift monitoring
-    digest: 1c171b8f98a45e6bfe1170913c39a201be15dafcd7910ed1de378543fbf0d6dc
+    digest: 7144ed95f0444bab30cd7c823ee6ab8a80c77941ea08acb455ba6b579cb46361
     home: https://www.eginnovations.com/
     icon: https://s.gravatar.com/avatar/9a5699e3ad66f788e8f29d32e0066e60?s=80
     keywords:
@@ -59,4 +59,4 @@ entries:
     urls:
     - https://eginnovations.github.io/helm-charts/repos/stable/egagent-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-30T21:04:30.7765326+05:30"
+generated: "2021-10-30T21:54:12.3050187+05:30"

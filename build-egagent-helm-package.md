@@ -1,9 +1,9 @@
-## Clone the repo
+# Clone the repo
 
     git clone https://github.com/eginnovations/helm-charts.git
     cd helm-charts
 
-## Make your chart changes inside of egagent directory  
+# Make your chart changes inside of egagent directory  
 
     helm lint eagent
     mkdir -p repos/new_charts
