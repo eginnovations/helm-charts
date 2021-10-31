@@ -1,6 +1,4 @@
 
-
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/eginnovations)](https://artifacthub.io/packages/search?repo=eginnovations)  
 # eG Innovations
 
 **eG - APM** is an Application Performance Monitoring solution which offers granular visibility over applications deployed in various application servers like Tomcat, JBoss, Jetty, WebSphere, etc., providing end to end monitoring of the application.  
@@ -18,9 +16,6 @@ The egagent helm chart adds eG Container Agent to every node in the cluster with
 -   Kubernetes 1.18 Or Higher
 
 ## Installing from Artifact Hub
-
-The Helm chart for eG-Agent can be found in Artifact Hub under below URL.
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/eginnovations)](https://artifacthub.io/packages/search?repo=eginnovations)  
   
 **Step 1 -** Adding the Repository. Run command.  
 
@@ -35,7 +30,7 @@ The Helm chart for eG-Agent can be found in Artifact Hub under below URL.
    Using set command:
 	   
 
-        helm install chart-name --set EG_MANAGER=<MANAGER_IP> \
+    helm install chart-name --set EG_MANAGER=<MANAGER_IP> \
 		--set EG_MANAGER_PORT=<MANAGER_PORT> \
 		--set EG_MANAGER_SSL=<true/false> \
 		eginnovations/egagent
