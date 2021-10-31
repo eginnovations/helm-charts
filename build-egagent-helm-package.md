@@ -6,7 +6,7 @@
 
 ## Make your chart changes inside of egagent directory  
 
-    helm lint eagent
+    helm lint egagent
     mkdir -p repos/new_charts
     helm package -u -d repos/new_charts egagent
     helm repo index repos/new_charts --url "https://eginnovations.github.io/helm-charts/repos/stable/" --merge index.yaml 
