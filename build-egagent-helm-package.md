@@ -22,3 +22,10 @@
     git add -A
     git commit -m "updated charts"
     git push
+
+
+## (For Testing Purpose) Create YAML Output using local repo
+
+	helm template egagent ./egagent --namespace egagent --set EG_MANAGER=<MANAGER_IP>  --set EG_MANAGER_PORT=<MANAGER_PORT>  --set EG_MANAGER_SSL=<true/false> --output-dir ./egagent-helm-output
+
+	
