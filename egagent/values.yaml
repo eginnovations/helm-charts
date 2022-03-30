@@ -4,9 +4,10 @@
 name: "egagent"
 namespace: "egagent"
 image:
+  registry: docker.io 
   repository: eginnovations/agent 
   pullPolicy: Always
-  tag: "7.2.0"
+  tag: "7.2.2"
 app: "egagent"
 securityContext:
   previleged: true
@@ -17,7 +18,7 @@ env:
   EG_MANAGER_SSL: "true"
   JVM_MEMORY: "1024"
   EG_AGENT_IDENTIFIER_ID: ""
-  EG_CONTAINERZ_PORT_DISCOVERY: "false"        
+  # EG_CONTAINERZ_PORT_DISCOVERY: "false"        
   DEBUG: "false"
   NAMESPACES_TO_INCLUDE: "*"
   NAMESPACES_TO_EXCLUDE: "none"
@@ -28,7 +29,7 @@ hostNetwork: true
 hostPID: true
 serviceAccountName: "egagent"
 
-imagePullSecrets: []
+imagePullSecrets: "your-registry-secret-name"
 nameOverride: "egagent"
 fullnameOverride: "egagent"
 
@@ -75,8 +76,17 @@ autoscaling:
   targetCPUUtilizationPercentage: 60
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector:
+    enabled: false
+    selectorLabelName: "kubernetes.io/hostname: 'ip-10-0-137-76'"
 
 tolerations: []
 
 affinity: {}
+
+btmHostMount:
+  create: false
+ 
+##monitorMasterNodes - true/false : deploy eG agent daemonset into master nodes to monitor master nodes 
+monitorMasterNodes:
+   enabled: false
