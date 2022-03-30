@@ -21,6 +21,14 @@ spec:
         app: {{ .Values.app }}
         {{- include "egagent.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.monitorMasterNodes.enabled }}
+      tolerations:
+      # this toleration is to have the daemonset runnable on master nodes
+      # remove it if your masters can't run pods
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      {{- end }} 
       volumes:
       - name: var-run
         hostPath:
@@ -31,13 +39,21 @@ spec:
       - name: host-root
         hostPath:
           path: /
+      {{- if .Values.btmHostMount.create }}
       - name: btmmount
         hostPath: 
           path: /opt/egbtm
           type: DirectoryOrCreate
+      {{- end }}    
+      imagePullSecrets:
+      - name: "{{ .Values.imagePullSecrets }}"
+      {{- if .Values.nodeSelector.enabled }}
+      nodeSelector:
+        {{ .Values.nodeSelector.selectorLabelName}}
+      {{- end }}        
       containers:
       - name: {{ .Values.name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         securityContext:
           privileged: {{ .Values.securityContext.previleged }}
@@ -52,8 +68,6 @@ spec:
           value: "{{ .Values.env.JVM_MEMORY }}"
         - name: EG_AGENT_IDENTIFIER_ID
           value: "{{ .Values.env.EG_AGENT_IDENTIFIER_ID }}"
-        - name: EG_CONTAINERZ_PORT_DISCOVERY
-          value: "{{ .Values.env.EG_CONTAINERZ_PORT_DISCOVERY }}"
         - name: DEBUG
           value: "{{ .Values.env.DEBUG }}"
         - name: NAMESPACES_TO_INCLUDE
@@ -71,8 +85,10 @@ spec:
           mountPath: /media/proc
         - name: host-root
           mountPath: /mnt
+        {{- if .Values.btmHostMount.create }}          
         - name: btmmount
           mountPath: /opt/egbtm
+        {{- end }}
       hostIPC: {{ .Values.hostIPC }}
       hostNetwork: {{ .Values.hostNetwork }}
       hostPID: {{ .Values.hostPID }}
