@@ -33,6 +33,7 @@ The egagent helm chart adds eG Container Agent to every node in the cluster with
     helm install chart-name --set EG_MANAGER=<MANAGER_IP> \
 		--set EG_MANAGER_PORT=<MANAGER_PORT> \
 		--set EG_MANAGER_SSL=<true/false> \
+		--set EG_AGENT_IDENTIFIER_ID=<ACCOUNT_KEY> \
 		eginnovations/egagent
 
 The **chart-name** could be any desired name that the instance of egagent to be called by.

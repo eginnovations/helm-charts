@@ -7,7 +7,7 @@ image:
   registry: docker.io 
   repository: eginnovations/agent 
   pullPolicy: Always
-  tag: "7.2.6"
+  tag: "7.2.8"
 app: "egagent"
 securityContext:
   previleged: true
