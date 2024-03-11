@@ -7,7 +7,7 @@ image:
   registry: docker.io 
   repository: eginnovations/agent 
   pullPolicy: Always
-  tag: "7.2.8"
+  tag: "7.2.10"
 app: "egagent"
 securityContext:
   previleged: true
@@ -90,3 +90,16 @@ btmHostMount:
 ##monitorMasterNodes - true/false : deploy eG agent daemonset into master nodes to monitor master nodes 
 monitorMasterNodes:
    enabled: false
+   
+userSSLCertsSecret:
+   create: false
+   data: {}
+    # ca.crt: << cat ca.crt | base64 >>
+    # client.crt: << cat client.crt | base64 >>
+    # client.key.pk8: << cat client.key.pk8 | base64 >>
+agentJreCacertsSecret:
+   create: false
+   data: {}
+     ## https://www.eginnovations.com/documentation/eG-Installation-Guide/Extracting-the-SSL-Certificate-to-a-Certificate-File.htm
+     # ca1.cer: << cat ca1.cer | base64 >>
+     # ca2.der: << cat ca2.der | base64 >>

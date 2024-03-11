@@ -12,8 +12,9 @@ metadata:
  {{- end }}
 rules:
 - nonResourceURLs:
-  - /version
-  - /healthz
+    - "/version"
+    - "/healthz"
+    - "/metrics"
   verbs: ["get"]
   apiGroups: []
   resources: []
@@ -42,21 +43,40 @@ rules:
     - "services"
     - "endpoints"
     - "nodes"
+    - "nodes/log"
+    - "nodes/metrics"
+    - "nodes/proxy"
+    # - "nodes/spec"
+    - "nodes/stats"
     - "pods"
     - "replicationcontrollers"
     - "componentstatuses"
     - "resourcequotas"
     - "persistentvolumes"
     - "persistentvolumeclaims"
+    - "limitranges"
   verbs: ["get", "list", "watch"]
-- apiGroups: [""]
+- apiGroups: ["metrics.k8s.io"]
   resources:
-    - "endpoints"
-  verbs: ["create", "update", "patch"]
-- apiGroups: ["networking.k8s.io"]
-  resources:
-    - "ingresses"
+    - "pods"
+    - "nodes"
   verbs: ["get", "list", "watch"]
+- apiGroups: ["autoscaling"]
+  resources:
+    - "horizontalpodautoscalers"
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["coordination.k8s.io"]
+  resources:
+    - "leases"
+  verbs: ["get", "list", "watch"]
+# - apiGroups: [""]
+  # resources:
+    # - "endpoints"
+  # verbs: ["create", "update", "patch"]
+# - apiGroups: ["networking.k8s.io"]
+  # resources:
+    # - "ingresses"
+  # verbs: ["get", "list", "watch"]
 - apiGroups: ["apps.openshift.io"]
   resources:
     - "deploymentconfigs"
@@ -65,5 +85,9 @@ rules:
   resourceNames: ["privileged"]
   resources: ["securitycontextconstraints"]
   verbs: ["use"]
+- apiGroups: ["config.openshift.io"]
+  resources:
+    - "clusteroperators"
+  verbs: ["get", "list", "watch"]
 
 {{- end }}

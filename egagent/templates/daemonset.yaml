@@ -30,21 +30,40 @@ spec:
         effect: NoSchedule
       {{- end }} 
       volumes:
+      - name: var-log
+        hostPath:
+          path: /var/log
+      - name: var-lib
+        hostPath:
+          path: /var/lib
       - name: var-run
         hostPath:
           path: /var/run
-      - name: process
+      # - name: process
+        # hostPath:
+          # path: /proc
+      # - name: host-root
+        # hostPath:
+          # path: /
+      - name: pod-logs
         hostPath:
-          path: /proc
-      - name: host-root
-        hostPath:
-          path: /
+          path: /var/log/pods
       {{- if .Values.btmHostMount.create }}
       - name: btmmount
         hostPath: 
           path: /opt/egbtm
           type: DirectoryOrCreate
-      {{- end }}    
+      {{- end }}
+      {{- if .Values.userSSLCertsSecret.create }}
+      #- name: ssl-certs
+        #secret:
+          #secretName: egagent-ssl-certs
+      {{- end }}
+      {{- if .Values.agentJreCacertsSecret.create }}
+      #- name: jre-cacerts
+        #secret:
+          #secretName: egagent-jre-cacerts
+      {{- end }}
       imagePullSecrets:
       - name: "{{ .Values.imagePullSecrets }}"
       {{- if .Values.nodeSelector.enabled }}
@@ -68,23 +87,56 @@ spec:
           value: "{{ .Values.env.JVM_MEMORY }}"
         - name: EG_AGENT_IDENTIFIER_ID
           value: "{{ .Values.env.EG_AGENT_IDENTIFIER_ID }}"
-        - name: DEBUG
-          value: "{{ .Values.env.DEBUG }}"
-        - name: NAMESPACES_TO_INCLUDE
-          value: "{{ .Values.env.NAMESPACES_TO_INCLUDE }}"          
-        - name: NAMESPACES_TO_EXCLUDE
-          value: "{{ .Values.env.NAMESPACES_TO_EXCLUDE }}"              
         - name: EG_HOST_IP
           valueFrom:
             fieldRef:
               fieldPath: {{ .Values.env.EG_HOST_IP }}
+        - name: EG_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: NAMESPACES_TO_INCLUDE
+          value: "{{ .Values.env.NAMESPACES_TO_INCLUDE }}"          
+        - name: NAMESPACES_TO_EXCLUDE
+          value: "{{ .Values.env.NAMESPACES_TO_EXCLUDE }}"              
+        - name: EG_AGENT_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: EG_AGENT_NODE_NAME
+          valueFrom:
+            fieldRef:
+               fieldPath: spec.nodeName
+        - name: EG_AGENT_NAMESPACE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: DEBUG
+          value: "{{ .Values.env.DEBUG }}"
+        # - name: EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED
+          # value: "{{ .Values.env.EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED }}"
+        - name: EG_KUBERNETES_CLUSTER_NAME
+          value: "My_Cluster"
+        - name: EG_KUBERNETES_CLUSTER_TYPE
+          value: "K8S"
+        #- name: CONTAINER_RUNTIME_ENDPOINT
+          #value: "unix:///var/run/k3s/containerd/containerd.sock"
+        #- name: IMAGE_SERVICE_ENDPOINT
+          #value: "unix:///var/run/k3s/containerd/containerd.sock"
+        
         volumeMounts:
+        - name: var-log
+          mountPath: /var/log
+        - name: var-lib
+          mountPath: /var/lib
         - name: var-run
           mountPath: /var/run
-        - name: process
-          mountPath: /media/proc
-        - name: host-root
-          mountPath: /mnt
+        # - name: process
+          # mountPath: /media/proc
+        # - name: host-root
+          # mountPath: /mnt
+        - name: pod-logs
+          mountPath: /mnt/var/log/pods
         {{- if .Values.btmHostMount.create }}          
         - name: btmmount
           mountPath: /opt/egbtm
