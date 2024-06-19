@@ -45,9 +45,9 @@ spec:
       # - name: host-root
         # hostPath:
           # path: /
-      - name: pod-logs
-        hostPath:
-          path: /var/log/pods
+      # - name: pod-logs
+        # hostPath:
+          # path: /var/log/pods
       {{- if .Values.btmHostMount.create }}
       - name: btmmount
         hostPath: 
@@ -127,16 +127,19 @@ spec:
         volumeMounts:
         - name: var-log
           mountPath: /var/log
+          readOnly: true
         - name: var-lib
           mountPath: /var/lib
+          readOnly: true
         - name: var-run
           mountPath: /var/run
+          readOnly: true
         # - name: process
           # mountPath: /media/proc
         # - name: host-root
           # mountPath: /mnt
-        - name: pod-logs
-          mountPath: /mnt/var/log/pods
+        # - name: pod-logs
+          # mountPath: /mnt/var/log/pods
         {{- if .Values.btmHostMount.create }}          
         - name: btmmount
           mountPath: /opt/egbtm
