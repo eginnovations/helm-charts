@@ -12,6 +12,10 @@ app: "egagent"
 securityContext:
   previleged: true
 
+providers:
+  gke:
+    autopilot: false
+
 env:
   EG_MANAGER: "xyz.egmonitoringhost.com"
   EG_MANAGER_PORT: "443"
