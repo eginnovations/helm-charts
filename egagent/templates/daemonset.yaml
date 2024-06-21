@@ -36,9 +36,15 @@ spec:
       - name: var-lib
         hostPath:
           path: /var/lib
+      {{- if .Values.providers.gke.autopilot}}
+      - name: var-run
+        hostPath:
+          path: /var/run/containerd
+      {{- else }}
       - name: var-run
         hostPath:
           path: /var/run
+      {{- end }}
       # - name: process
         # hostPath:
           # path: /proc
@@ -131,9 +137,15 @@ spec:
         - name: var-lib
           mountPath: /var/lib
           readOnly: true
+         {{- if .Values.providers.gke.autopilot}}
+        - name: var-run
+          mountPath: /var/run/containerd
+          readOnly: true
+         {{- else }}
         - name: var-run
           mountPath: /var/run
-          readOnly: true
+          readOnly: false
+         {{- end }}
         # - name: process
           # mountPath: /media/proc
         # - name: host-root
@@ -147,4 +159,6 @@ spec:
       hostIPC: {{ .Values.hostIPC }}
       hostNetwork: {{ .Values.hostNetwork }}
       hostPID: {{ .Values.hostPID }}
+      {{- if .Values.serviceAccount.create}}
       serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
