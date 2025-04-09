@@ -5,6 +5,7 @@ metadata:
   name: {{ .Values.clusterRoleBinding.name }}
   namespace: {{ .Values.clusterRoleBinding.namespace }}
   labels:
+    app: {{ .Values.app }}
     {{- include "egagent.labels" . | nindent 4 }}
   {{- with .Values.serviceAccount.annotations }}
   annotations:
@@ -12,7 +13,7 @@ metadata:
   {{- end }}
 subjects:
 - kind: ServiceAccount
-  name: {{ include "egagent.serviceAccountName" . }} 
+  name: {{ include "egagent.serviceAccountName" . }}
   namespace: {{ .Values.serviceAccount.namespace }}
 roleRef:
   kind: ClusterRole

@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: "DaemonSet"
+kind: DaemonSet
 metadata:
   name: {{ include "egagent.fullname" . }}
   namespace: {{ .Values.namespace }}
@@ -21,14 +21,10 @@ spec:
         app: {{ .Values.app }}
         {{- include "egagent.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.monitorMasterNodes.enabled }}
-      tolerations:
-      # this toleration is to have the daemonset runnable on master nodes
-      # remove it if your masters can't run pods
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-      {{- end }} 
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
       - name: var-log
         hostPath:
@@ -51,9 +47,9 @@ spec:
       # - name: host-root
         # hostPath:
           # path: /
-      # - name: pod-logs
-        # hostPath:
-          # path: /var/log/pods
+      - name: pod-logs
+        hostPath:
+          path: /var/log/pods
       {{- if .Values.btmHostMount.create }}
       - name: btmmount
         hostPath: 
@@ -61,24 +57,35 @@ spec:
           type: DirectoryOrCreate
       {{- end }}
       {{- if .Values.userSSLCertsSecret.create }}
-      #- name: ssl-certs
-        #secret:
-          #secretName: egagent-ssl-certs
+      - name: ssl-certs
+        secret:
+          secretName: egagent-ssl-certs
       {{- end }}
       {{- if .Values.agentJreCacertsSecret.create }}
-      #- name: jre-cacerts
-        #secret:
-          #secretName: egagent-jre-cacerts
+      - name: jre-cacerts
+        secret:
+          secretName: egagent-jre-cacerts
       {{- end }}
       imagePullSecrets:
       - name: "{{ .Values.imagePullSecrets }}"
       {{- if .Values.nodeSelector.enabled }}
       nodeSelector:
         {{ .Values.nodeSelector.selectorLabelName}}
-      {{- end }}        
+      {{- end }}
+      tolerations:
+      {{- if .Values.monitorMasterNodes.enabled }}
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      {{- end }}
       containers:
       - name: {{ .Values.name }}
-        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image:  {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         securityContext:
           privileged: {{ .Values.securityContext.previleged }}
@@ -102,13 +109,21 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
         - name: NAMESPACES_TO_INCLUDE
-          value: "{{ .Values.env.NAMESPACES_TO_INCLUDE }}"          
+          value: "{{ .Values.env.NAMESPACES_TO_INCLUDE }}"
         - name: NAMESPACES_TO_EXCLUDE
-          value: "{{ .Values.env.NAMESPACES_TO_EXCLUDE }}"              
+          value: "{{ .Values.env.NAMESPACES_TO_EXCLUDE }}"
         - name: EG_AGENT_POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: EG_AGENT_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: EG_AGENT_POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
         - name: EG_AGENT_NODE_NAME
           valueFrom:
             fieldRef:
@@ -119,8 +134,8 @@ spec:
               fieldPath: metadata.namespace
         - name: DEBUG
           value: "{{ .Values.env.DEBUG }}"
-        # - name: EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED
-          # value: "{{ .Values.env.EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED }}"
+        #- name: EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED
+          #value: "{{ .Values.env.EG_KUBERNETES_CLUSTER_DISCOVERY_ENABLED }}"
         - name: EG_KUBERNETES_CLUSTER_NAME
           value: "My_Cluster"
         - name: EG_KUBERNETES_CLUSTER_TYPE
@@ -150,15 +165,41 @@ spec:
           # mountPath: /media/proc
         # - name: host-root
           # mountPath: /mnt
-        # - name: pod-logs
-          # mountPath: /mnt/var/log/pods
-        {{- if .Values.btmHostMount.create }}          
+        - name: pod-logs
+          mountPath: /mnt/var/log/pods
+        {{- if .Values.btmHostMount.create }}
         - name: btmmount
           mountPath: /opt/egbtm
         {{- end }}
+        {{- if .Values.userSSLCertsSecret.create }}
+        - name: ssl-certs
+          mountPath: /opt/egurkha/container/certs
+        {{- end }}
+        {{- if .Values.agentJreCacertsSecret.create }}
+        - name: jre-cacerts
+          mountPath: /opt/egurkha/container/cacerts
+        {{- end }}
+        resources:
+          requests:
+            memory: "1G"
+            cpu: 0.5
+          limits:
+            memory: "1.5G"
+            cpu: 1.5
+        livenessProbe:
+          exec:
+            command: # Command to check container health
+              - sh
+              - -c
+              - /opt/egurkha/bin/eGAgentmon_k8s
+          initialDelaySeconds: 300
+          periodSeconds: 180
+          timeoutSeconds: 60
+          failureThreshold: 2
       hostIPC: {{ .Values.hostIPC }}
       hostNetwork: {{ .Values.hostNetwork }}
       hostPID: {{ .Values.hostPID }}
       {{- if .Values.serviceAccount.create}}
+      dnsPolicy: {{ .Values.dnsPolicy }}
       serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}

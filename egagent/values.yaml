@@ -7,7 +7,7 @@ image:
   registry: docker.io 
   repository: eginnovations/agent 
   pullPolicy: Always
-  tag: "7.2.10"
+  tag: "7.5.0"
 app: "egagent"
 securityContext:
   previleged: true
@@ -28,9 +28,10 @@ env:
   NAMESPACES_TO_EXCLUDE: "none"
   EG_HOST_IP: "status.hostIP"
 
-hostIPC: true
+hostIPC: false
 hostNetwork: true
 hostPID: true
+dnsPolicy: ClusterFirstWithHostNet
 serviceAccountName: "egagent"
 
 imagePullSecrets: "your-registry-secret-name"
@@ -62,9 +63,9 @@ clusterRoleBinding:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  supplementalGroups: [0]
   # fsGroup: 2000
-
   # capabilities:
   #   drop:
   #   - ALL
@@ -81,8 +82,8 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 nodeSelector:
-    enabled: false
-    selectorLabelName: "kubernetes.io/hostname: 'ip-10-0-137-76'"
+    enabled: true
+    selectorLabelName: "kubernetes.io/os: linux"
 
 tolerations: []
 
@@ -93,7 +94,7 @@ btmHostMount:
  
 ##monitorMasterNodes - true/false : deploy eG agent daemonset into master nodes to monitor master nodes 
 monitorMasterNodes:
-   enabled: false
+   enabled: true
    
 userSSLCertsSecret:
    create: false

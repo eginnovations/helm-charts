@@ -3,8 +3,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ .Values.clusterRole.name }}
-  namespace: {{ .Values.clusterRole.namespace }}
   labels:
+    app: {{ .Values.app }}
     {{- include "egagent.labels" . | nindent 4 }}
   {{- with .Values.serviceAccount.annotations }}
  annotations:
@@ -15,6 +15,8 @@ rules:
     - "/version"
     - "/healthz"
     - "/metrics"
+    - "/stats/summary"
+    - "/metrics/cadvisor"
   verbs: ["get"]
   apiGroups: []
   resources: []

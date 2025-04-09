@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: egagent-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app }}
+  ## Endpoint:  egagent-ingress.egagent.svc.cluster.local:13700/:23700
+  ## to check connectivity for java:  curl -v telnet://egagent-ingress.egagent.svc.cluster.local:13700
+  ## to check connectivity for nodejs:  curl -v telnet://egagent-ingress.egagent.svc.cluster.local:23700
+spec:
+  selector:
+    app: {{ .Values.app }}
+  ports:
+   - name: java-profiler
+     port: 13700
+     targetPort: 13700
+     protocol: TCP
+   - name: nodejs-profiler 
+     port: 23700 
+     targetPort: 23700
+     protocol: TCP
+  internalTrafficPolicy: Local ## Since K8S 1.22+
